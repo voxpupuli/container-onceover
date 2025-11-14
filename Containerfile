@@ -59,6 +59,7 @@ RUN apk update \
     && apk add --no-cache jq \
     && apk add --no-cache git \
     && apk add --no-cache curl \
+    && apk add --no-cache py3-yaml \
     && rm -rf /usr/local/lib/ruby/gems
 
 COPY --from=builder /usr/local/lib/ruby/gems /usr/local/lib/ruby/gems
