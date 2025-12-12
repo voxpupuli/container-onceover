@@ -10,10 +10,10 @@ This repository contains a containerized version of [Onceover](https://github.co
 
 ## Usage
 
-You can run the container using a container runtime like Podman or Docker. Here is an example command to run Onceover in an interactive terminal, mounting the current directory to `/data` inside the container:
+You can run the container using a container runtime like Podman or Docker. Here is an example command to run Onceover in an interactive terminal, mounting the current directory to `/repo` inside the container:
 
 ```shell
-$ podman run -it --rm -v $PWD:/data:Z ghcr.io/voxpupuli/onceover:latest
+$ podman run -it --rm -v $PWD:/repo:Z ghcr.io/voxpupuli/onceover:latest
 
 NAME
     onceover - Tool for testing Puppet controlrepos
