@@ -1,6 +1,6 @@
 ---
 include:
   - base_image: 'docker.io/library/ruby:3.2-alpine'
-    rubygem_bundler: '4.0.2'
+    rubygem_bundler: '4.0.3'
     rubygem_onceover: '5.0.2'
     rubygem_onceover-codequality: '1.1.0'
