@@ -7,7 +7,7 @@ ARG RUBYGEM_BUNDLER
 ARG RUBYGEM_ONCEOVER
 ARG RUBYGEM_ONCEOVER_CODEQUALITY
 
-ENV RUBYGEM_BUNDLER=${RUBYGEM_BUNDLER:-2.7.2}
+ENV RUBYGEM_BUNDLER=${RUBYGEM_BUNDLER:-4.0.6}
 ENV RUBYGEM_ONCEOVER=${RUBYGEM_ONCEOVER:-5.0.2}
 ENV RUBYGEM_ONCEOVER_CODEQUALITY=${RUBYGEM_ONCEOVER_CODEQUALITY:-1.1.0}
 
@@ -30,8 +30,6 @@ RUN apk update \
     && rm -rf /usr/local/lib/ruby/gems/*/specifications/default/stringio-*.gemspec \
     && rm -rf /usr/local/lib/ruby/gems/*/gems/rdoc-* \
     && rm -rf /usr/local/lib/ruby/gems/*/specifications/default/rdoc-*.gemspec \
-    && rm -rf /usr/local/lib/ruby/gems/*/gems/rexml-* \
-    && rm -rf /usr/local/lib/ruby/gems/*/specifications/rexml-*.gemspec \
     && rm -rf /usr/local/lib/ruby/gems/*/gems/racc-* \
     && rm -rf /usr/local/lib/ruby/gems/*/specifications/default/racc-*.gemspec \
     && rm -rf /usr/local/lib/ruby/gems/*/gems/drb-* \
