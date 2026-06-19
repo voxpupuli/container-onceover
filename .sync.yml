@@ -1,8 +1,7 @@
 ---
-.github/workflows/ci.yml:
+:global:
   matrix_command: bash matrix.sh build
   matrix_requires_yq: true
-  build_job_name: 'Build ${{ matrix.platform }} CI container'
   build_runner: '${{ matrix.runner }}'
   image_tag: 'ci/onceover:${{ matrix.rubygem_onceover }}'
   build_platforms: 'linux/${{ matrix.platform }}'
@@ -11,6 +10,31 @@
     - 'RUBYGEM_BUNDLER=${{ matrix.rubygem_bundler }}'
     - 'RUBYGEM_ONCEOVER=${{ matrix.rubygem_onceover }}'
     - 'RUBYGEM_ONCEOVER_CODEQUALITY=${{ matrix.rubygem_onceover_codequality }}'
+.github/workflows/ci.yml:
+  build_job_name: 'Build ${{ matrix.platform }} CI container'
   test_repository: voxpupuli/puppet-example
   test_commands:
     - 'docker run --rm -v "$PWD:/repo:Z" ci/onceover:${{ matrix.rubygem_onceover }} -h'
+.github/workflows/security_scanning.yml:
+  scan_job_name: 'Scan ${{ matrix.platform }} container'
+  sarif_category: 'grype-${{ matrix.platform }}'
+.github/workflows/build_container.yml:
+  publish_build_job_name: 'Build onceover ${{ matrix.rubygem_onceover }} (${{ matrix.platform }})'
+  publish_build_arch: 'linux/${{ matrix.platform }}'
+  publish_tags:
+    - 'ghcr.io/${{ github.repository_owner }}/onceover:${{ github.sha }}-v${{ matrix.rubygem_onceover }}-${{ matrix.platform }}'
+  publish_manifest_matrix_command: bash matrix.sh tag
+  publish_manifest_steps:
+    - name: Create multi-architecture manifests
+      commands:
+        - >-
+          docker buildx imagetools create
+          -t ghcr.io/${{ github.repository_owner }}/onceover:${{ matrix.rubygem_onceover }}-${{ github.ref_name }}
+          -t ghcr.io/${{ github.repository_owner }}/onceover:${{ matrix.rubygem_onceover }}-latest
+          -t ghcr.io/${{ github.repository_owner }}/onceover:latest
+          -t docker.io/${{ github.repository_owner }}/onceover:${{ matrix.rubygem_onceover }}-${{ github.ref_name }}
+          -t docker.io/${{ github.repository_owner }}/onceover:${{ matrix.rubygem_onceover }}-latest
+          -t docker.io/${{ github.repository_owner }}/onceover:latest
+          ghcr.io/${{ github.repository_owner }}/onceover:${{ github.sha }}-v${{ matrix.rubygem_onceover }}-arm64
+          ghcr.io/${{ github.repository_owner }}/onceover:${{ github.sha }}-v${{ matrix.rubygem_onceover }}-amd64
+  dockerhub_repository: voxpupuli/onceover
