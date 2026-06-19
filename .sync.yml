@@ -1,0 +1,16 @@
+---
+.github/workflows/ci.yml:
+  matrix_command: bash matrix.sh build
+  matrix_requires_yq: true
+  build_job_name: 'Build ${{ matrix.platform }} CI container'
+  build_runner: '${{ matrix.runner }}'
+  image_tag: 'ci/onceover:${{ matrix.rubygem_onceover }}'
+  build_platforms: 'linux/${{ matrix.platform }}'
+  build_args:
+    - 'BASE_IMAGE=${{ matrix.base_image }}'
+    - 'RUBYGEM_BUNDLER=${{ matrix.rubygem_bundler }}'
+    - 'RUBYGEM_ONCEOVER=${{ matrix.rubygem_onceover }}'
+    - 'RUBYGEM_ONCEOVER_CODEQUALITY=${{ matrix.rubygem_onceover_codequality }}'
+  test_repository: voxpupuli/puppet-example
+  test_commands:
+    - 'docker run --rm -v "$PWD:/repo:Z" ci/onceover:${{ matrix.rubygem_onceover }} -h'
